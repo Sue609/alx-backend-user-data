@@ -5,7 +5,7 @@ This module instroduces a flask app
 import os
 from api.v1.views import app_views
 from typing import Tuple
-from flask import request, jsonify, make_response
+from flask import request, jsonify, make_response, abort
 from models.user import User
 
 
@@ -34,3 +34,17 @@ def login() -> Tuple[str, int]:
         res.set_cookie(os.getenv("SESSION_NAME"), sessiond_id)
         return res
     return jsonify({"error": "wrong password"}), 401
+
+
+@app_views.route(
+    '/auth_session/logout',
+    method=['DELETE'], strict_slashes=False)
+def logout() -> Tuple[str, int]:
+    """
+    method that deletes the session id contained in the request as cookie
+    """
+    from api.v1.app import auth
+    destroy = auth.destroy_session(request)
+    if not destroy:
+        abort(404)
+    return jsonify({}), 200

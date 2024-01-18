@@ -9,7 +9,9 @@ from flask import request, jsonify, make_response, abort
 from models.user import User
 
 
-@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
+@app_views.route(
+    '/auth_session/login', methods=['POST'], strict_slashes=False
+    )
 def login() -> Tuple[str, int]:
     """
     implementing a post request for session authentication

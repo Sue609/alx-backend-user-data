@@ -9,19 +9,18 @@ from flask import request, jsonify, make_response
 from models.user import User
 
 
-@app_views.route('/auth_session/login', method=['POST'], strict_slashes=True)
+@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login() -> Tuple[str, int]:
     """
-    Handles the login route for Session authentication.
+    implementing a post request for session authentication
     """
     not_found_res = {"error": "no user found for this email"}
     email = request.form.get('email')
+    if email is None or len(email.strip()) == 0:
+        return jsonify({"error": "email missing"}), 400
     password = request.form.get('password')
-    
-    if not email:
-        return jsonify({ "error": "email missing" }), 400
-    if not password:
-        return jsonify({ "error": "password missing" }), 404
+    if password is None or len(password.strip()) == 0:
+        return jsonify({"error": "password missing"}), 400
     try:
         users = User.search({'email': email})
     except Exception:

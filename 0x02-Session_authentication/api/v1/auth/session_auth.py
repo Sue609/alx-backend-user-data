@@ -5,6 +5,7 @@ This module introduces a new class.
 from .auth import Auth
 import uuid
 from models.user import User
+from flask import request
 
 
 class SessionAuth(Auth):

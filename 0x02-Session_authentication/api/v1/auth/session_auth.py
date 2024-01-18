@@ -47,14 +47,10 @@ class SessionAuth(Auth):
         """
         Method that delets the user session / logout
         """
-        if request is None:
+        cookie_value = self.session_cookie(request)
+        user_id = self.user_id_for_session_id(cookie_value)
+        if (request is None or cookie_value is None) or user_id is None:
             return False
-        session_cookie_value = self.session_cookie(request)
-        if not session_cookie_value:
-            return False
-        user_id = self.user_id_for_session_id(session_cookie_value)
-        if not user_id:
-            return False
-        if session_cookie_value in self.user_id_by_session_id:
-            del self.user_id_by_session_id[session_cookie_value]
+        if cookie_value in self.user_id_by_session_id:
+            del self.user_id_by_session_id[cookie_value]
         return True

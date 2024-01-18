@@ -41,7 +41,8 @@ def login() -> Tuple[str, int]:
     method=['DELETE'], strict_slashes=False)
 def logout() -> Tuple[str, int]:
     """
-    method that deletes the session id contained in the request as cookie
+    method that deletes the session id contained in the request as
+    cookie
     """
     from api.v1.app import auth
     destroy = auth.destroy_session(request)

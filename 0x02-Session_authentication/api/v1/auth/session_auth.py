@@ -39,8 +39,5 @@ class SessionAuth(Auth):
         Instance method that returns a user instance based on cookie
         value
         """
-        if request is None:
-            return None
-        cookie_value = self.session_cookie(request)
-        user_id = self.user_id_by_session_id(cookie_value)
+        user_id = self.user_id_by_session_id(self.session_cookie(request))
         return User.get(user_id)

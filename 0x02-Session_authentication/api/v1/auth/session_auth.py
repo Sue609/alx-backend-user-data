@@ -4,6 +4,7 @@ This module introduces a new class.
 """
 from .auth import Auth
 import uuid
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -32,3 +33,14 @@ class SessionAuth(Auth):
         if session_id is None or not isinstance(session_id, str):
             return None
         return self.user_id_by_session_id.get(session_id)
+
+    def current_user(self, request=None) -> User:
+        """
+        Instance method that returns a user instance based on cookie
+        value
+        """
+        if request is None:
+            return None
+        cookie_value = self.session_cookie(request)
+        user_id = self.user_id_by_session_id(cookie_value)
+        return User.get(user_id)

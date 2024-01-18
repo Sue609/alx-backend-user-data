@@ -3,7 +3,7 @@
 This module introduces a new class.
 """
 from .auth import Auth
-import uuid
+from uuid import uuid4
 from models.user import User
 from flask import request
 
@@ -22,7 +22,7 @@ class SessionAuth(Auth):
         if user_id is None or not isinstance(user_id, str):
             return None
 
-        session_id = str(uuid.uuid4())
+        session_id = str(uuid4())
         self.user_id_by_session_id[session_id] = user_id
         return session_id
 

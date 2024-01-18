@@ -40,22 +40,15 @@ class SessionExpAuth(SessionAuth):
         """
         Overloaded method to get user_id for a given session_id.
         """
-        if session_id is None or session_id not in self.user_id_by_session_id:
-            return None
-
-        session_dict = self.user_id_by_session_id[session_id]
-
-        if self.session_duration <= 0:
-            return session_dict.get("user_id")
-
-        if "created_at" not in session_dict:
-            return None
-
-        created_at = session_dict["created_at"]
-        current_time = self.get_current_time()
-        session_expiry_time = created_at + timedelta(seconds=self.session_duration)
-
-        if current_time < session_expiry_time:
-            return session_dict.get("user_id")
-        else:
-            return None
+        if session_id in self.user_id_by_session_id:
+            new_session = self.user_id_by_session_id[session_id]
+            if self.session_duration <= 0:
+                return new_session['user_id']
+            if 'created_at' not in new_session:
+                return None
+            current_time = datetime.now()
+            time_span = timedelta(seconds=self.session_duration)
+            expiry_time = new_session['created_at'] + time_span
+            if expiry_time < current_time:
+                return None
+            return new_session['user_id']

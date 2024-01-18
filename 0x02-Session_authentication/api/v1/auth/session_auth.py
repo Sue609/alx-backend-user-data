@@ -10,4 +10,3 @@ class SessionAuth(Auth):
     A class that inherits from the Auth class.
     """
     pass
-    

@@ -27,9 +27,9 @@ if auth_type == 'basic_auth':
 if auth_type == 'session_auth':
     auth = SessionAuth()
 if auth_type == 'session_exp_auth':
-    auth = SessionExpAuth
+    auth = SessionExpAuth()
 if auth_type == 'session_db_auth':
-    auth = SessionDBAuth
+    auth = SessionDBAuth()
 
 
 @app.errorhandler(404)

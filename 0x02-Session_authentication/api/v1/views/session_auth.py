@@ -9,10 +9,8 @@ from flask import request, jsonify, make_response, abort
 from models.user import User
 
 
-@app_views.route(
-    '/auth_session/login', methods=['POST'], strict_slashes=False
-    )
-def login() -> Tuple[str, int]:
+@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
+def login():
     """
     implementing a post request for session authentication
     """
@@ -38,9 +36,8 @@ def login() -> Tuple[str, int]:
     return jsonify({"error": "wrong password"}), 401
 
 
-@app_views.route(
-    '/auth_session/logout',
-    method=['DELETE'], strict_slashes=False)
+@app_views.route('/auth_session/logout',
+                 method=['DELETE'], strict_slashes=False)
 def logout() -> Tuple[str, int]:
     """
     method that deletes the session id contained in the request as

@@ -1,4 +1,4 @@
-#!/usr/bin/env pyrhon3
+#!/usr/bin/env python3
 """
 This module introduces functions.
 """

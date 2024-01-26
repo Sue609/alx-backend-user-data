@@ -4,6 +4,8 @@ This module introduces functions.
 """
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
@@ -40,6 +42,19 @@ class DB:
             self._session.add(new_user)
             self._session.commit()
         except Exception:
-            self._engine.rollback()
+            self._session.rollback()
             new_user = None
         return new_user
+
+    def find_user_by(self, **kwargs) -> User:
+        """
+        Method takes in arbitrary keyword arguements and returne the
+        first row found in the users table.
+        """
+        try:
+            user = self.__session.query(User).filter_by(**kwargs).first()
+            if user is None:
+                raise NoResultFound()
+            return user
+        except KeyError:
+            raise InvalidRequestError()
